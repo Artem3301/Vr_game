@@ -3,7 +3,37 @@ guid: 3785d583e4aeff64ab39a6fa036b6f31
 ModelImporter:
   serializedVersion: 22200
   internalIDToNameTable: []
-  externalObjects: {}
+  externalObjects:
+  - first:
+      type: UnityEngine:Material
+      assembly: UnityEngine.CoreModule
+      name: HANDG
+    second: {fileID: 2100000, guid: c805cd135b9859a49914a50044e60f96, type: 2}
+  - first:
+      type: UnityEngine:Material
+      assembly: UnityEngine.CoreModule
+      name: METAL
+    second: {fileID: 2100000, guid: be7ccf453484e30418937cd9bfcec0d3, type: 2}
+  - first:
+      type: UnityEngine:Material
+      assembly: UnityEngine.CoreModule
+      name: METALTOP
+    second: {fileID: 2100000, guid: d0bb2fe7d9d391a44b7f71b06a6dec64, type: 2}
+  - first:
+      type: UnityEngine:Material
+      assembly: UnityEngine.CoreModule
+      name: Material.003
+    second: {fileID: 2100000, guid: 7006f9a6fd05a37469c3f76cd0ba3c4c, type: 2}
+  - first:
+      type: UnityEngine:Material
+      assembly: UnityEngine.CoreModule
+      name: Material.004
+    second: {fileID: 2100000, guid: 033eacea3a0f2ee4ba00b5408afd8cb1, type: 2}
+  - first:
+      type: UnityEngine:Material
+      assembly: UnityEngine.CoreModule
+      name: PLASTIC.002
+    second: {fileID: 2100000, guid: 402d00a71579d7d48960269ded1e27a2, type: 2}
   materials:
     materialImportMode: 2
     materialName: 0
