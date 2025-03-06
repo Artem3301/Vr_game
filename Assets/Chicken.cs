@@ -5,17 +5,17 @@ using UnityEngine.AI;
 
 public class Chicken : MonoBehaviour
 {
-    NavMeshAgent agent;
+    public NavMeshAgent agent;
     public float wanderRadius = 10f;
-    public float wanderTimer = 5f;
+    float wanderTimer = 0.0005f;
     private float timer;
     public Animator anim;
+    public Transform chick;
 
     //[SerializeField] private Animator chickenAnimator;
     // Start is called before the first frame update
     void Start()
     {
-        agent = GetComponent<NavMeshAgent>();
         timer = wanderTimer;
 
     }
@@ -24,7 +24,7 @@ public class Chicken : MonoBehaviour
     void Update()
     {
         timer = Time.deltaTime;
-        if (timer <= 0)
+        if (timer >= 0)
         {
             anim.SetBool("isWalking", false);
             Vector3 newPos = RandomNavSphere(transform.position, wanderRadius, -1);
@@ -34,7 +34,7 @@ public class Chicken : MonoBehaviour
         }
         else
         {
-            anim.SetBool("isWalking", true);
+            anim.SetBool("isWalking", false);
         }
 
         //chickenAnimator.SetBool("isWalking", true); // пишешь это когда курица должна воспроизводить анимацию ходьбы
