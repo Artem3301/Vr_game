@@ -1,51 +1,57 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
-using UnityEngine.AI;
 
-public class Chicken : MonoBehaviour
+public class ChickenMover : MonoBehaviour
 {
-    public NavMeshAgent agent;
-    public float wanderRadius = 10f;
-    float wanderTimer = 0.0005f;
-    private float timer;
-    public Animator anim;
-    public Transform chick;
+    public Animator anim; // Ссылка на аниматор
+    public List<Transform> waypoints; // Динамический массив трансформов
+    public float moveSpeed = 2f; // Скорость движения курицы
 
-    //[SerializeField] private Animator chickenAnimator;
-    // Start is called before the first frame update
+    private int currentWaypointIndex = 0; // Индекс текущего целевого трансформа
+
     void Start()
     {
-        timer = wanderTimer;
-
+        if (waypoints.Count > 0)
+        {
+            StartCoroutine(MoveToWaypoints());
+        }
     }
 
-    // Update is called once per frame
-    void Update()
+    private IEnumerator MoveToWaypoints()
     {
-        timer = Time.deltaTime;
-        if (timer >= 0)
+        while (true)
         {
-            anim.SetBool("isWalking", false);
-            Vector3 newPos = RandomNavSphere(transform.position, wanderRadius, -1);
-            agent.SetDestination(newPos);
-            timer = wanderTimer;
-            anim.SetBool("isWalking", true);
-        }
-        else
-        {
-            anim.SetBool("isWalking", false);
-        }
+            Transform target = waypoints[currentWaypointIndex];
+            anim.SetBool("isWalking", true); // Включаем анимацию ходьбы
 
-        //chickenAnimator.SetBool("isWalking", true); // пишешь это когда курица должна воспроизводить анимацию ходьбы
-        //chickenAnimator.SetBool("isWalking", false); // пишешь это когда курица должна стоять
-    }
-    public static Vector3 RandomNavSphere(Vector3 origin, float dist, int layermask)
-    {
-        Vector3 randDirection = Random.insideUnitSphere * dist;
-        randDirection += origin;
+            // Двигаемся к следующему пути
+            while (Vector3.Distance(transform.position, target.position) > 0.1f)
+            {
+                // Поворачиваем курицу в сторону цели
+                Vector3 direction = (target.position - transform.position).normalized;
+                transform.forward = direction;
 
-        NavMesh.SamplePosition(randDirection, out NavMeshHit navHit, dist, layermask);
-        return navHit.position;
+                // Двигаемся к цели
+                transform.position = Vector3.MoveTowards(transform.position, target.position, moveSpeed * Time.deltaTime);
+
+                yield return null; // Ждем следующего кадра
+            }
+
+            anim.SetBool("isWalking", false); // Останавливаем анимацию
+
+            // Ожидаем случайное время от 5 до 10 секунд
+            float waitTime = Random.Range(5f, 10f);
+            yield return new WaitForSeconds(waitTime);
+
+            // Переходим к следующему пути
+            currentWaypointIndex++;
+
+            // Если достигли конца массива, начинаем сначала
+            if (currentWaypointIndex >= waypoints.Count)
+            {
+                currentWaypointIndex = 0; // Сброс индекса на 0
+            }
+        }
     }
 }
